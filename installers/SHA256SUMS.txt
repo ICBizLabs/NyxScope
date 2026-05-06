@@ -1,2 +1,0 @@
-64dfae6307c93cdc67f9d02edfe94381d7e55dd0474335b4db2e466b08f6ed13 *Nyx Scope_1.0.0_x64-setup.exe
-4ff1751bdc6c2c95a29dd3dbd6ff2ceb092f34013472ac4cc4cd78170c7557b1 *Nyx Scope_1.0.0_x64_en-US.msi
