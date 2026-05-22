@@ -2,9 +2,11 @@
 
 **Professional wideband SDR scanner for Windows, macOS, and Linux.**
 
-Turn an inexpensive software-defined radio into a serious multi-protocol monitoring station. Watch the spectrum live, lock onto signals, follow trunked radio systems, decode digital voice, transcribe conversations, track aircraft and vessels, capture pager messages, log smart meters and weather sensors — all from one polished desktop application.
+Turn an inexpensive software-defined radio into a serious multi-protocol monitoring station. Watch the spectrum live, run multiple SDRs side-by-side, lock onto signals, follow trunked radio systems, decode digital voice, transcribe conversations, track aircraft and vessels, capture pager messages, log smart meters and weather sensors — all from one polished desktop application.
 
 [**Download for your platform**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Landing page**](https://icbizlabs.github.io/NyxScope/) · [**Report a bug**](https://github.com/ICBizLabs/NyxScope/issues)
+
+![NyxScope — trunked voice and paging side-by-side](screenshots/Trunkandpaging.png)
 
 ---
 
@@ -12,6 +14,7 @@ Turn an inexpensive software-defined radio into a serious multi-protocol monitor
 
 - **One app, fifty-plus protocols.** Aviation, marine, public safety, amateur, paging, weather, broadcast — NyxScope decodes them all out of the box, no plugins, no glue scripts.
 - **Sixteen simultaneous receivers from one radio.** Each with its own waterfall, audio, recording, transcription, and tone detection. Listen to a whole band at once.
+- **Multi-SDR tabbed UI.** Plug in more than one radio and run them independently — each tab gets its own scan ranges, VFOs, decoded messages, classifications, and trunking state. Mix RTL-SDR + HackRF + PlutoSDR in the same session.
 - **Built for serious listening.** Adaptive squelch tracks the noise floor in real time. Per-band tuning learns the right settings for each frequency range. Auto-identify tells you what protocol is on a strange frequency.
 - **Smart trunking.** P25 Phase 1 and 2, EDACS, and NXDN with control-channel auto-discovery and seamless voice following. Phase 2 TDMA voice decode included.
 - **Live transcription.** Speech-to-text on every active channel, powered by Whisper. Search every conversation you've ever heard.
@@ -23,6 +26,7 @@ Turn an inexpensive software-defined radio into a serious multi-protocol monitor
 
 - **Live spectrum and waterfall** with peak picking, frequency-hover tooltips, right-click tune-to-frequency, and one-click skip from peaks
 - **Up to 16 concurrent VFOs** with mini-waterfalls and audio per channel
+- **Multi-SDR tabbed UI** — one tab per connected radio, per-slot state scoping, mix-and-match hardware in a single session
 - **Adaptive auto-squelch** with one-shot calibration and continuous tracking modes
 - **Auto-identify digital protocol** — point at a strange signal and the app cycles through every digital voice mode and tells you which one fits
 - **Signal classification** that names the modulation (FSK, GFSK, OOK, OFDM, …) before you even decide what to do with it
@@ -34,6 +38,9 @@ Turn an inexpensive software-defined radio into a serious multi-protocol monitor
 - **IQ streaming** in RTL-TCP-compatible format for chaining to external tools
 - **Per-VFO recording** — WAV audio and IQ formats, with VAD / VOX triggers, pre/post-record buffers, and notes that travel with the file
 - **Per-band scanner overrides** — squelch, hold time, dwell, and digital-detect settings tuned automatically for each preset
+- **Right-click frequency actions** on every message tab — Lookup Frequency / Save Frequency from DataLog rows, sensor rows, ADS-B / AIS / APRS / UAT / AIS-C / LoRa cards
+
+![Quick Modes — one-click access to every supported preset](screenshots/QuickModes.png)
 
 ## Protocol Coverage
 
@@ -47,6 +54,8 @@ Turn an inexpensive software-defined radio into a serious multi-protocol monitor
 - **Active call tracking** with talkgroup, source ID, encryption flag, and call history
 - **Encrypted-call indicator** so you know at a glance whether you'll hear voice
 
+![P25 trunking — live talkgroup, source ID, encryption flag, and call history](screenshots/P25Trunking.png)
+
 ### Digital Voice
 
 P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoice — manual mode selection on a locked frequency, or hit the **Identify** button and let the app pick.
@@ -59,6 +68,8 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **ACARS 130** — flight messages, registrations, labels, on the messages tab
 - **VDL2 137** — VHF Data Link Mode 2 frames
 
+![ADS-B aircraft tracking — interactive map next to the data table](screenshots/ADSB.png)
+
 ### Paging & Sensors
 
 - **POCSAG 512 / 1200 / 2400** with capcode filtering and force-alpha override for medical and commercial pagers
@@ -67,11 +78,19 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **Radiosondes** — RS41, RS92, DFM, M10/M20 weather balloon telemetry on 400–406 MHz
 - **LoRa** packet decode (with optional external decoder)
 
+![Pager reception — POCSAG/FLEX traffic in real time](screenshots/PagerReception.png)
+
+![ISM sensor decoding — smart meters, weather stations, TPMS, and more](screenshots/sensors.png)
+
+![433 MHz remote controls and keyfobs decoded via rtl_433](screenshots/433CarRemotes.png)
+
 ### Tones, Signaling, Emergency
 
 - DTMF, ZVEI 1/2/3, DZVEI, PZVEI, EEA, EIA, CCIR selective calling
-- CTCSS — 50 standard tones detected per VFO
-- DCS — 83 standard codes detected per VFO
+- **CTCSS** — 50 standard tones detected per VFO with Goertzel-bank decoder and ratio-gated noise rejection (closely-spaced tones like 67.0 / 69.3 Hz resolve cleanly)
+- **DCS** — 83 standard codes detected per VFO via full Golay (23,12) decode with O(1) rotation-and-polarity matching
+- **Tone sighting log** — every CTCSS / DCS transition persists to the Tones tab and survives restart
+- **TONE master toggle** in the TopBar disables CTCSS / DCS detection app-wide when you need the CPU
 - EAS / SAME emergency alerts
 - CallerID (CLIP) and German FMS (fire/ambulance)
 - Native Morse / CW decoder with on-card readout
@@ -80,6 +99,8 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 
 - **HD Radio (NRSC-5)** — locks onto FM broadcast, switches between HD1–HD4 programs, displays station name, slogan, title, artist, album, genre, and quality stats
 - **RDS** — station name, RadioText, program type, traffic alerts on any WFM lock
+
+![HD Radio (NRSC-5) — HD1–HD4 program switching with full metadata](screenshots/HDRadio.png)
 
 ### Amateur
 
@@ -99,23 +120,25 @@ One-click presets:
 | VDL2 137 | 136.975 MHz | Modern VHF Data Link aircraft messaging |
 | APRS 144.390 | 144.390 MHz | Amateur packet positions and weather |
 | Pagers 929–932 | 929–932 MHz | POCSAG and FLEX pager traffic |
-| 433 Sensors | 433 MHz ISM | European wireless sensors |
+| 433 Sensors | 433 MHz ISM | European wireless sensors, keyfobs, garage remotes |
 | 915 Sensors | 902–928 MHz | US smart meters, weather, security |
 | Radiosonde 400–406 | 400–406 MHz | Weather balloon telemetry |
 
 ## Hardware Support
 
-Bring your own SDR — the popular ones work natively:
+Bring your own SDR — the popular ones work natively, and you can run more than one at the same time:
 
-| Hardware | Frequency Range |
-| --- | --- |
-| RTL-SDR (and clones) | 24 MHz – 1.766 GHz |
-| HackRF One | 1 MHz – 6 GHz |
-| Airspy R2 / Mini | 24 MHz – 1.8 GHz |
-| SDRplay (RSP series) | 1 kHz – 2 GHz |
-| LimeSDR / LimeSDR Mini | 100 kHz – 3.8 GHz |
-| PlutoSDR / Pluto+ | 70 MHz – 6 GHz (USB or Ethernet) |
-| Network SDRs | `rtl_tcp` servers, auto-discovered on the LAN |
+| Hardware | Frequency Range | Notes |
+| --- | --- | --- |
+| RTL-SDR (and clones) | 24 MHz – 1.766 GHz | Native USB driver |
+| HackRF One | 1 MHz – 6 GHz | 2–20 MHz sample-rate range enforced |
+| Airspy R2 / Mini | 24 MHz – 1.8 GHz | Via SoapySDR |
+| SDRplay (RSP series) | 1 kHz – 2 GHz | Via SoapySDR |
+| LimeSDR / LimeSDR Mini | 100 kHz – 3.8 GHz | Via SoapySDR |
+| PlutoSDR / Pluto+ | 70 MHz – 6 GHz | USB or Ethernet, dual-RX on Pluto+ |
+| Network SDRs | — | `rtl_tcp` servers auto-discovered on the LAN |
+
+Open the **Devices** dialog, pick more than one — each gets its own tab in the main UI.
 
 ## Editions
 
@@ -132,11 +155,12 @@ Everything you need to start exploring:
 - Signal classification
 - Local control surface
 
-### Trial — 7 days, no card required
+### Trial — 30 days, no card required
 
 Every Pro feature unlocked:
 
 - Up to 16 concurrent VFOs
+- Multi-SDR tabbed UI
 - All trunking systems (P25, EDACS, NXDN)
 - Full digital voice suite (P25, DMR, NXDN, D-STAR, YSF, M17, ProVoice)
 - ADS-B, AIS, ACARS, VDL2, APRS, radiosonde, LoRa
@@ -151,7 +175,7 @@ Everything in Trial, no expiration. Hardware-bound activation key. Pricing annou
 
 ## Activation
 
-1. Install and run NyxScope — your 7-day trial starts automatically.
+1. Install and run NyxScope — your 30-day trial starts automatically.
 2. Open **Settings → License**.
 3. Copy the hardware fingerprint shown in the dialog.
 4. Purchase a key (link in the dialog at launch).
@@ -173,6 +197,27 @@ Licenses are bound to your computer's hardware fingerprint and can be transferre
 - Compatible SDR hardware (see table above)
 - ~500 MB disk for the app, plus your own room for recordings
 
+## What's New
+
+### v1.23.0 — Subprocess isolation
+
+- **mbelib-neo runs out-of-process** as a small helper binary. Keeps the main NyxScope process clean of mbelib-neo's GPL-incompatible vocoder symbols; the helper communicates over stdin/stdout pipes. No user-visible behavior change — voice decode quality is identical.
+- **Helper integrity check** rejects stale or placeholder binaries (any candidate under 50 KB) so a stripped install never silently runs without IMBE/AMBE.
+
+### v1.22.0 — Beta polish
+
+- **Beta trial extended from 7 to 30 days** — more time to evaluate every Pro feature.
+- **Multi-SDR tabbed UI** — connect multiple radios and run them independently in the same session, each with its own state.
+- **CTCSS / DCS decoder rewrite** — Goertzel-bank CTCSS with median-noise + ratio gating; full Golay (23,12) DCS with O(1) rotation/polarity matching. Closely-spaced tones (67.0 / 69.3 Hz) resolve correctly; D023N verified against a live transmitter.
+- **Tone sighting log + TONE master toggle** — every CTCSS / DCS transition is logged to the Tones tab and survives restart. One TopBar button disables all tone detection if you need the CPU back.
+- **P25 / DMR / NXDN false-positive fixes** — digital voice no longer mis-classifies as analog `Voice`, no phantom CTCSS / DCS sightings during vocoder frames.
+- **HackRF Windows retune hang fix** — drift-probe on first retune detects whether the SoapyHackRF driver re-enumerates the device, then skips the failing post-retune reapply for the rest of the session. Eliminates the `EPIPE / Invalid Board ID` death-spiral on fast scans.
+- **Right-click frequency actions** on every message tab — Lookup Frequency and Save Frequency from any DataLog row, sensor row, or protocol card.
+- **Tab description tooltips** on every DataLog / ProtocolDecoder tab.
+- **TopBar visual unification** — design tokens for radius, accent palette, and decoder colors; License badge restyled.
+
+Full per-release notes ship inside the install at `RELEASE_NOTES_v<X.Y.Z>.md`.
+
 ## Download
 
 | Platform | File | Get it |
@@ -187,11 +232,10 @@ All releases are signed and self-update once installed — install once, future 
 
 - **Bug reports & feature requests** — [open an issue](https://github.com/ICBizLabs/NyxScope/issues)
 - **Documentation & guides** — [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)
- 
 
 ## Notices
 
-NyxScope is commercial software distributed by ICBizLabs. The bundled third-party decoders (multimon-ng, rtl_433, dsd-neo, nrsc5, direwolf, acarsdec, dump978, AIS-catcher, rs41mod, mbelib-neo) are open source and ship under their original licenses. See `THIRD_PARTY_NOTICES.md` in each release for the full list.
+NyxScope is commercial software distributed by ICBizLabs. The bundled third-party decoders (multimon-ng, rtl_433, dsd-neo, nrsc5, direwolf, acarsdec, dump978, AIS-catcher, rs41mod, mbelib-neo) are open source and ship under their original licenses. The mbelib-neo vocoder runs as an isolated helper process to keep its license boundary clean. See `THIRD_PARTY_NOTICES.md` in each release for the full list.
 
 ---
 
