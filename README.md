@@ -185,10 +185,15 @@ Licenses are bound to your computer's hardware fingerprint and can be transferre
 
 ## Privacy
 
+- **Audio, IQ, recordings, transcripts, and the spectrum waterfall stay on your machine.** None of that is ever transmitted.
 - **Local Whisper** transcription is fully offline — your audio never leaves your machine.
 - **Cloud transcription** (OpenAI, AssemblyAI) is opt-in per channel; the app never sends audio without an explicit Enable click.
-- **Your listening data stays on your machine.** Recordings, transcripts, sensor logs, and call history never leave the app unless you export them.
-- **No telemetry.** NyxScope doesn't phone home.
+- **License heartbeat** — Trial and Licensed installs check the server every few hours to confirm the key hasn't been revoked. The ping carries your numeric key id and a hashed hardware fingerprint; no listening data is included.
+- **Crash reports** are opt-in — the next launch after a panic shows the full report inline and nothing is sent unless you click **Send**. Reports are double-redacted (license keys, tokens, IPs, and home paths replaced) before transmission.
+- **FCC database lookups** only happen when you click **Lookup** or **Auto-enrich** on a frequency.
+- **Activity reporting** (a batch of frequencies you tuned) is off by default and toggled in Settings → Lookup.
+
+Full plain-language details and opt-out steps live in `privacy.md`, shipped inside every release artifact.
 
 ## System Requirements
 
