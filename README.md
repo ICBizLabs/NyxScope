@@ -191,7 +191,6 @@ Licenses are bound to your computer's hardware fingerprint and can be transferre
 - **License heartbeat** — Trial and Licensed installs check the server every few hours to confirm the key hasn't been revoked. The ping carries your numeric key id and a hashed hardware fingerprint; no listening data is included.
 - **Crash reports** are opt-in — the next launch after a panic shows the full report inline and nothing is sent unless you click **Send**. Reports are double-redacted (license keys, tokens, IPs, and home paths replaced) before transmission.
 - **FCC database lookups** only happen when you click **Lookup** or **Auto-enrich** on a frequency.
-- **Activity reporting** (a batch of frequencies you tuned) is off by default and toggled in Settings → Lookup.
 
 Full plain-language details and opt-out steps live in `privacy.md`, shipped inside every release artifact.
 
