@@ -6,9 +6,11 @@ for attribution and license-compliance purposes.
 
 The authoritative per-component upstream commit reference for the
 **exact** source matching every bundled binary is recorded in
-[`THIRD_PARTY_SOURCES.json`](./THIRD_PARTY_SOURCES.json). Full license
-texts (GPL-2.0, GPL-3.0, LGPL-2.0, LGPL-2.1) are bundled in
-[`LICENSES/`](./LICENSES/).
+`THIRD_PARTY_SOURCES.json`, published alongside the corresponding
+sources for each release at
+[`https://i-c.biz/sources/`](https://i-c.biz/sources/) (see
+*Source Code Availability* below). Full license texts (GPL-2.0,
+GPL-3.0, LGPL-2.0, LGPL-2.1) are in [`LICENSES/`](./LICENSES/).
 
 ## Bundled Decoders
 
@@ -51,7 +53,7 @@ work, but the main Nyx Scope binary that invokes it is not.
 | Component         | Purpose                                                                       | Upstream                                            | License              |
 | ----------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- | -------------------- |
 | mbelib-neo        | IMBE / AMBE / AMBE+2 vocoder (linked into sdr-imbe-helper; also into dsd-neo) | https://github.com/arancormonk/mbelib-neo           | GPL-2.0-or-later     |
-| sdr-imbe-helper   | Nyx Scope's GPL containment helper wrapping mbelib-neo over a stdio protocol  | this distribution (`crates/sdr-imbe-helper/`)       | GPL-2.0-or-later     |
+| sdr-imbe-helper   | Nyx Scope's GPL containment helper wrapping mbelib-neo over a stdio protocol  | source published per release at https://i-c.biz/sources/ | GPL-2.0-or-later |
 
 > **License correction (v1.22.0).** Prior versions of this document and
 > the EULA labelled mbelib-neo as "LGPL-2.1". That was incorrect.
@@ -167,8 +169,7 @@ contains:
     installer (`nyxscope-source-v{version}.tar.gz`).
   - Per-component source archives matching the bundled GPL/LGPL
     binaries, identified by upstream commit hash.
-  - A copy of [`THIRD_PARTY_SOURCES.json`](./THIRD_PARTY_SOURCES.json)
-    as audit manifest.
+  - A copy of `THIRD_PARTY_SOURCES.json` as audit manifest.
   - `SHA256SUMS.txt` for integrity verification.
 
 A written request for source on physical media may also be made to
