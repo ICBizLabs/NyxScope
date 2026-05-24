@@ -4,7 +4,7 @@
 
 Turn an inexpensive software-defined radio into a serious multi-protocol monitoring station. Watch the spectrum live, run multiple SDRs side-by-side, lock onto signals, follow trunked radio systems, decode digital voice, transcribe conversations, track aircraft and vessels, capture pager messages, log smart meters and weather sensors — all from one polished desktop application.
 
-[**Download for your platform**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Landing page**](https://icbizlabs.github.io/NyxScope/) · [**Report a bug**](https://github.com/ICBizLabs/NyxScope/issues)
+[**Download for your platform**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Landing page**](https://i-c.biz/#nyx-scope) · [**Discord**](https://discord.gg/Wf4RRc2VPp) · [**Report a bug**](https://github.com/ICBizLabs/NyxScope/issues)
 
 ![NyxScope — trunked voice and paging side-by-side](screenshots/Trunkandpaging.png)
 
@@ -233,7 +233,8 @@ All releases are signed and self-update once installed — install once, future 
 ## Support
 
 - **Bug reports & feature requests** — [open an issue](https://github.com/ICBizLabs/NyxScope/issues)
-- **Documentation & guides** — [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)
+- **Community chat** — [Discord](https://discord.gg/Wf4RRc2VPp)
+- **Documentation & guides** — [i-c.biz/#nyx-scope](https://i-c.biz/#nyx-scope)
 
 ## Notices
 
@@ -241,4 +242,4 @@ NyxScope is commercial software distributed by ICBizLabs. The bundled third-part
 
 ---
 
-*Built by ICBizLabs · [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)*
+*Built by ICBizLabs · [i-c.biz/#nyx-scope](https://i-c.biz/#nyx-scope)*
