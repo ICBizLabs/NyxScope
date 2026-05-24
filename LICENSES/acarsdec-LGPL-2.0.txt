@@ -1,0 +1,31 @@
+acarsdec - an ACARS SDR decoder
+https://github.com/TLeconte/acarsdec
+
+Copyright (C) 2015-2018 Thierry Leconte
+
+acarsdec is free software; you can redistribute it and/or modify it
+under the terms of the GNU Library General Public License version 2 as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+The upstream project also includes third-party components such as cJSON.
+See the upstream repository for full source and notices.
+
+The acarsdec source code corresponding to the bundled binary can be
+obtained from the official repository:
+https://github.com/TLeconte/acarsdec
+
+The full text of the LGPL-2.0 (the "GNU Library General Public License,
+Version 2") is included in this directory as ./LGPL-2.0.txt.
+
+This binary is distributed as a separate, unmodified executable alongside
+the Nyx Scope application. It communicates with the application only via
+a standard input/output subprocess boundary. The Nyx Scope application
+code is governed by the EULA at ../eula.md; the compiled Nyx Scope
+binary additionally statically links mbelib-neo (GPL-2.0-or-later) and
+is therefore itself distributed under GPL-2.0-or-later as a combined
+work. See ../THIRD_PARTY_NOTICES.md for the full third-party inventory
+and ../THIRD_PARTY_SOURCES.json for exact upstream commit references.

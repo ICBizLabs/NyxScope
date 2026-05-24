@@ -1,0 +1,30 @@
+AIS-catcher - AIS receiver
+https://github.com/jvde-github/AIS-catcher
+
+Copyright (C) 2021-2026 the AIS-catcher authors and contributors
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+The AIS-catcher source code corresponding to the bundled binary can be
+obtained from the official repository:
+https://github.com/jvde-github/AIS-catcher
+
+The full text of the GPL-3.0 is included in this directory as
+./GPL-3.0.txt.
+
+This binary is distributed as a separate, unmodified executable alongside
+the Nyx Scope application. It communicates with the application only via
+a standard input/output subprocess boundary. The Nyx Scope application
+code is governed by the EULA at ../eula.md; the compiled Nyx Scope
+binary additionally statically links mbelib-neo (GPL-2.0-or-later) and
+is therefore itself distributed under GPL-2.0-or-later as a combined
+work. See ../THIRD_PARTY_NOTICES.md for the full third-party inventory
+and ../THIRD_PARTY_SOURCES.json for exact upstream commit references.

@@ -1,0 +1,32 @@
+dsd-neo - digital voice decoder runtime
+https://github.com/arancormonk/dsd-neo
+
+Copyright (C) the dsd-neo authors and contributors
+
+Project license:
+- GNU General Public License version 3 or later
+
+Additional upstream notice:
+- Portions remain under ISC from the original DSD codebase
+- Upstream also distributes third-party notices in `THIRD_PARTY.md`
+
+The dsd-neo source code corresponding to the bundled runtime can be
+obtained from the official repository:
+https://github.com/arancormonk/dsd-neo
+
+The full text of the GPL-3.0 is included in this directory as
+./GPL-3.0.txt.
+
+The dsd-neo Windows runtime is bundled in ./dsd-neo-libs/ alongside its
+DLL dependencies (SoapySDR, codec2, FLAC, libmp3lame, mpg123, ogg, opus,
+pdcurses, portaudio, rtlsdr, sndfile, vorbis, vorbisenc, and the GPL-2.0
+mbe-neo.dll which is documented separately in
+./mbelib-neo-GPL-2.0-or-later.txt). Each bundled library retains its own
+upstream license; see ../THIRD_PARTY_NOTICES.md for the table and
+../THIRD_PARTY_SOURCES.json for upstream commit references.
+
+dsd-neo is invoked by Nyx Scope as a separate subprocess. The Nyx Scope
+application code is governed by the EULA at ../eula.md; the compiled
+Nyx Scope main binary additionally statically links mbelib-neo
+(GPL-2.0-or-later, NOT dsd-neo itself) and is therefore distributed
+under GPL-2.0-or-later as a combined work.

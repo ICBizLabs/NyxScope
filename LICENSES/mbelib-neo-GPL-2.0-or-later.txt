@@ -1,0 +1,43 @@
+mbelib-neo - IMBE / AMBE / AMBE+2 vocoder library (FFI dependency of dsd-neo
+and statically linked into the Nyx Scope main binary via crates/sdr-imbe).
+https://github.com/arancormonk/mbelib-neo
+
+Copyright (C) the mbelib and mbelib-neo authors and contributors
+
+This project is provided under the terms of the GNU General Public License,
+version 2 or (at your option) any later version. Portions originate from
+the original ISC-licensed mbelib and are redistributed under GPL-2.0-or-later
+as permitted by the ISC terms (see docs/upstream-mbelib-attribution.md in
+the upstream repository).
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+The full text of the GPL-2.0 is included in this directory as
+./GPL-2.0.txt.
+
+The mbelib-neo source code corresponding to the bundled library can be
+obtained from the official repository:
+https://github.com/arancormonk/mbelib-neo
+
+mbelib-neo is bundled in two forms in this distribution:
+
+  1. As `mbe-neo.dll` inside ./dsd-neo-libs/ (alongside dsd-neo.exe).
+     dsd-neo.exe loads it dynamically at runtime.
+
+  2. **Statically linked into the `sdr-imbe-helper` executable** which
+     ships as a sidecar binary alongside the Nyx Scope main app. The
+     `sdr-imbe-helper` binary is the Nyx Scope project's GPL containment
+     line: the Nyx Scope main binary spawns it as a child process and
+     communicates with it exclusively over a stdin/stdout pipe boundary.
+
+Because the GPL static link is contained inside `sdr-imbe-helper` and
+the main Nyx Scope binary uses a subprocess boundary (recognized by GPL
+§0/§2 as a valid arrangement), the Nyx Scope main binary itself contains
+no GPL object code and is governed by the proprietary EULA at
+../eula.md (see §9.4).
+
+See ../THIRD_PARTY_NOTICES.md for the full third-party inventory and
+../THIRD_PARTY_SOURCES.json for the exact upstream commit reference.

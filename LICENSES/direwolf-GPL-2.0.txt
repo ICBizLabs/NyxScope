@@ -1,0 +1,29 @@
+Dire Wolf - software AX.25/APRS modem and decoder
+https://github.com/wb2osz/direwolf
+
+Copyright (C) the Dire Wolf authors and contributors
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 2 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+The Dire Wolf source code corresponding to the bundled binary can be
+obtained from the official repository:
+https://github.com/wb2osz/direwolf
+
+The full text of the GPL-2.0 is included in this directory as
+./GPL-2.0.txt.
+
+This binary is distributed as a separate, unmodified executable alongside
+the Nyx Scope application. It communicates with the application only via
+a standard input/output subprocess boundary. The Nyx Scope application
+code is governed by the EULA at ../eula.md; the compiled Nyx Scope
+binary additionally statically links mbelib-neo (GPL-2.0-or-later) and
+is therefore itself distributed under GPL-2.0-or-later as a combined
+work. See ../THIRD_PARTY_NOTICES.md for the full third-party inventory
+and ../THIRD_PARTY_SOURCES.json for exact upstream commit references.
