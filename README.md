@@ -1,6 +1,6 @@
 # NyxScope
 
-**Professional wideband SDR scanner for Windows, macOS, and Linux.**
+**Professional wideband SDR scanner for Windows.**
 
 Turn an inexpensive software-defined radio into a serious multi-protocol monitoring station. Watch the spectrum live, run multiple SDRs side-by-side, lock onto signals, follow trunked radio systems, decode digital voice, transcribe conversations, track aircraft and vessels, capture pager messages, log smart meters and weather sensors — all from one polished desktop application.
 
@@ -196,7 +196,7 @@ Full plain-language details and opt-out steps live in `privacy.md`, shipped insi
 
 ## System Requirements
 
-- 64-bit Windows 10 or 11, macOS 11+, or modern Linux (glibc 2.31+)
+- 64-bit Windows 10 or 11
 - 4 GB RAM minimum, 8 GB recommended for heavy multi-VFO use with transcription
 - Compatible SDR hardware (see table above)
 - ~500 MB disk for the app, plus your own room for recordings
@@ -227,8 +227,6 @@ Full per-release notes ship inside the install at `RELEASE_NOTES_v<X.Y.Z>.md`.
 | Platform | File | Get it |
 | --- | --- | --- |
 | Windows | `.exe` installer or `.msi` | [Releases](https://github.com/ICBizLabs/NyxScope/releases/latest) |
-| macOS | `.dmg` (Apple Silicon and Intel) | [Releases](https://github.com/ICBizLabs/NyxScope/releases/latest) |
-| Linux | `.deb` and `.AppImage` | [Releases](https://github.com/ICBizLabs/NyxScope/releases/latest) |
 
 All releases are signed and self-update once installed — install once, future releases land with a single click.
 
