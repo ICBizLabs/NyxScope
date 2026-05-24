@@ -171,14 +171,14 @@ Every Pro feature unlocked:
 
 ### Pro — Licensed
 
-Everything in Trial, no expiration. Hardware-bound activation key. Pricing announced on launch.
+Everything in Trial, no expiration. Hardware-bound activation key. See **[Pricing & tier comparison](https://i-c.biz/buy/#compare-licenses)** for current rates.
 
 ## Activation
 
 1. Install and run NyxScope — your 30-day trial starts automatically.
 2. Open **Settings → License**.
 3. Copy the hardware fingerprint shown in the dialog.
-4. Purchase a key (link in the dialog at launch).
+4. **[Purchase a key](https://i-c.biz/buy/)** — pricing and licensing options live here.
 5. Paste the key back into the License dialog and activate.
 
 Licenses are bound to your computer's hardware fingerprint and can be transferred between machines on request.
@@ -192,7 +192,7 @@ Licenses are bound to your computer's hardware fingerprint and can be transferre
 - **Crash reports** are opt-in — the next launch after a panic shows the full report inline and nothing is sent unless you click **Send**. Reports are double-redacted (license keys, tokens, IPs, and home paths replaced) before transmission.
 - **FCC database lookups** only happen when you click **Lookup** or **Auto-enrich** on a frequency.
 
-Full plain-language details and opt-out steps live in `privacy.md`, shipped inside every release artifact.
+Full plain-language details and opt-out steps live in `privacy.md`, shipped inside every release artifact. Full online version: **[i-c.biz/policies/privacy.php](https://i-c.biz/policies/privacy.php)**.
 
 ## System Requirements
 
@@ -239,6 +239,8 @@ All releases are signed and self-update once installed — install once, future 
 ## Notices
 
 NyxScope is commercial software distributed by ICBizLabs. The bundled third-party decoders (multimon-ng, rtl_433, dsd-neo, nrsc5, direwolf, acarsdec, dump978, AIS-catcher, rs41mod, mbelib-neo) are open source and ship under their original licenses. The mbelib-neo vocoder runs as an isolated helper process to keep its license boundary clean. See `THIRD_PARTY_NOTICES.md` in each release for the full list.
+
+Legal: **[EULA](https://i-c.biz/policies/eula.php)** · **[Terms of Service](https://i-c.biz/policies/terms.php)**.
 
 ---
 
