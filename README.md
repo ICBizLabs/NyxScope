@@ -6,6 +6,8 @@ NyxScope wires together a curated set of open-source SDR decoders — `multimon-
 
 [**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues) · [**Docs**](https://icbizlabs.github.io/NyxScope/)
 
+![NyxScope — trunked voice and paging side-by-side](screenshots/Trunkandpaging.png)
+
 ---
 
 ## Built on open source
@@ -89,6 +91,8 @@ Alongside the bundled FOSS stack, NyxScope ships its own native Rust decoders an
 - **Control-channel auto-discovery** across 851–869 MHz, identifying systems by NAC, WACN, RFSS, and Site.
 - **Active call tracking** — talkgroup, source ID, encryption flag, and call history.
 
+![P25 trunking — live talkgroup, source ID, encryption flag, and call history](screenshots/P25Trunking.png)
+
 ### Digital voice
 
 P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoice — manual mode selection on a locked frequency, or hit **Identify** and let the app pick.
@@ -101,6 +105,8 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **ACARS 130** — flight messages, registrations, labels (`acarsdec`).
 - **VDL2 137** — VHF Data Link Mode 2 (`dumpvdl2`).
 
+![ADS-B aircraft tracking — interactive map next to the data table](screenshots/ADSB.png)
+
 ### Paging and sensors
 
 - **POCSAG 512 / 1200 / 2400** with capcode filtering and force-alpha override.
@@ -108,6 +114,12 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **rtl_433** — 200+ ISM device types: smart meters (ERT, IDM, NETIDM), weather stations (Bresser, Acurite, LaCrosse, Ambient), tire pressure monitors, garage doors, doorbells, soil moisture, and many more.
 - **Radiosondes** — RS41, RS92, DFM, M10/M20 on 400–406 MHz.
 - **LoRa** — native CSS PHY decoder with multi-region channel plans (US915, EU868, EU433, AU915, AS923, CN470, IN865, KR920, RU864) and LoRaWAN MAC parsing.
+
+![Pager reception — POCSAG/FLEX traffic in real time](screenshots/PagerReception.png)
+
+![ISM sensor decoding — smart meters, weather stations, TPMS, and more](screenshots/sensors.png)
+
+![433 MHz remote controls and keyfobs decoded via rtl_433](screenshots/433CarRemotes.png)
 
 ### Tones, signaling, emergency
 
@@ -123,6 +135,8 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **HD Radio (NRSC-5)** — locks onto FM broadcast, switches between HD1–HD4 programs, shows station name, slogan, title, artist, album, genre, and quality stats.
 - **RDS** — station name, RadioText, program type, traffic alerts on any WFM lock.
 
+![HD Radio (NRSC-5) — HD1–HD4 program switching with full metadata](screenshots/HDRadio.png)
+
 ### Amateur
 
 - **APRS** packet positions, weather, telemetry, messages.
@@ -130,6 +144,8 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - D-STAR, YSF, and M17 digital voice.
 
 ## Quick Modes
+
+![Quick Modes — one-click access to every supported preset](screenshots/QuickModes.png)
 
 | Preset | Frequency | What you get |
 | --- | --- | --- |
