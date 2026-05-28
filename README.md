@@ -4,7 +4,7 @@
 
 NyxScope wires together a curated set of open-source SDR decoders — `multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `acarsdec`, `dump978`, `AIS-catcher`, `dumpvdl2`, `rs41mod`, `mbelib-neo` — behind a single Rust/Tauri application. You get spectrum and waterfall, up to 16 concurrent VFOs, trunked-radio following (P25 Phase 1 and 2, EDACS, NXDN), digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, without compiling sidecars, managing `PATH`, or gluing pipelines together.
 
-[**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues) · [**Docs**](https://icbizlabs.github.io/NyxScope/)
+[**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**User Manual**](./MANUAL.md) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues) · [**Docs**](https://icbizlabs.github.io/NyxScope/)
 
 ![NyxScope — trunked voice and paging side-by-side](screenshots/Trunkandpaging.png)
 
@@ -217,6 +217,7 @@ NyxScope is currently Windows-only.
 ## Community and support
 
 - **Bug reports & feature requests** — [open an issue](https://github.com/ICBizLabs/NyxScope/issues). Please note whether the bug is in NyxScope itself or in a bundled decoder; protocol-layer issues are usually best filed upstream as well.
+- **User Manual** — task-oriented walkthrough of the app: scanning, trunking, aircraft, paging, HD Radio, recording, and so on. See [`MANUAL.md`](./MANUAL.md).
 - **Documentation and guides** — [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)
 
 ## Acknowledgments
