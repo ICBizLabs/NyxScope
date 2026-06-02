@@ -1,6 +1,6 @@
 # Nyx Scope — User Manual
 
-*Version 1.25.0*
+*Version 1.26.0*
 
 This manual walks through the common things you'll actually do with Nyx Scope: scanning a frequency range, following a trunked radio system, tracking aircraft, decoding pagers, listening to HD Radio, and so on. It assumes you've already installed the app and have an SDR plugged in.
 
@@ -29,7 +29,7 @@ If you're brand-new, start with **Getting Started** below. If you have a specifi
 
 ## Getting Started
 
-**Install.** Download `NyxScope-1.25.0-x64-setup.exe`, double-click, and follow the installer. Every required decoder sidecar (rtl_433, multimon-ng, acarsdec, direwolf, nrsc5, dump978, dumpvdl2, rs41mod, dsd-neo) ships bundled — you don't install them separately.
+**Install.** Download `NyxScope-1.26.0-x64-setup.exe`, double-click, and follow the installer. Every required decoder sidecar (rtl_433, multimon-ng, acarsdec, direwolf, nrsc5, dump978, dumpvdl2, rs41mod, dsd-neo) ships bundled — you don't install them separately.
 
 **Drivers.** Before you can talk to an RTL-SDR dongle, you must swap its kernel driver to WinUSB using [Zadig](https://zadig.akeo.ie/). HackRF, Airspy, bladeRF, SDRplay, Fobos, and PlutoSDR work through SoapySDR — install the vendor's driver/firmware first, then the SoapySDR module for your device.
 
@@ -265,7 +265,7 @@ Smart meters, weather stations, tire pressure sensors, and dozens of other ISM-b
 2. The **Sensors** dock tab populates as messages decode, grouped by device ID + protocol.
 3. Each sensor card shows current readings in both metric and imperial units (temperature, humidity, pressure, battery, rain, etc.).
 
-![Sensors, no spectrum](screenshots/sensorsNo%20Spectrum.png)
+![Sensors, no spectrum](screenshots/sensors_NoSpectrum.png)
 
 ### Smart meters
 
@@ -503,4 +503,4 @@ Discord, or open an issue at the public source mirror. If the bug involves a spe
 
 ---
 
-*This manual covers Nyx Scope v1.25.0. Features and behaviors may differ on older versions — check `Help → About` in-app for your exact build.*
+*This manual covers Nyx Scope v1.26.0. Features and behaviors may differ on older versions — check `Help → About` in-app for your exact build.*

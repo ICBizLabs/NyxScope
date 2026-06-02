@@ -14,11 +14,9 @@ THIS END USER LICENSE AGREEMENT ("Agreement") IS A LEGALLY BINDING CONTRACT BETW
 
 2.1. **FREE Edition.** Provided at no charge for personal evaluation and non-commercial use. Subject to feature limitations (including but not limited to channel count, recording, session length, or other restrictions as described at the time of download).
 
-2.2. **AMATEUR Edition.** Provided for a fee for personal, non-commercial use. Licensed use is confirmed by a license file or activation key issued to You.
+2.2. **LICENSED Edition.** Provided for a fee for personal or commercial use. Licensed use is confirmed by a license file or activation key issued to You.
 
-2.3. **PRO Edition.** Provided for a fee for professional and commercial use. Licensed use is confirmed by a hardware protection key (dongle) and/or an organizational license file. Each seat/user requires a separate license unless otherwise specified in a written agreement.
-
-2.4. Licensor may, from time to time, modify the feature set of any edition. Existing paid license holders will continue to receive the features materially represented at the time of purchase for the licensed version.
+2.3. Licensor may, from time to time, modify the feature set of any edition. Existing paid license holders will continue to receive the features materially represented at the time of purchase for the licensed version.
 
 ## 3. Restrictions
 
