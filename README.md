@@ -4,7 +4,7 @@
 
 NyxScope is a Rust/Tauri application that decodes most of its digital protocols natively — P25 Phase 1 and Phase 2 voice, EDACS and NXDN control channels, ADS-B, AIS, ACARS, POCSAG, FLEX, LoRa CSS PHY + LoRaWAN MAC, Morse, RDS, CTCSS/DCS, signal classification — in-process, no sidecar. For protocols where a mature open-source decoder already exists, NyxScope bundles it (`multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`) so the app installs with zero `PATH` wrangling. You get spectrum and waterfall, up to 16 concurrent VFOs, trunked-radio following, digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, in one binary.
 
-[**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**User Manual**](./MANUAL.md) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues) · [**Docs**](https://icbizlabs.github.io/NyxScope/)
+[**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Website**](https://i-c.biz/) · [**User Manual**](./MANUAL.md) · [**Docs**](https://github.com/ICBizLabs/NyxScope/wiki) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues)
 
 > **NyxScope 1.31 is a public BETA.** It's stable enough for daily use, but
 > features are landing fast and some decoders are still being hardened against
@@ -286,7 +286,8 @@ NyxScope is currently Windows-only.
 - **Discord** — join the NyxScope community at [discord.gg/Wf4RRc2VPp](https://discord.gg/Wf4RRc2VPp) for help, signal hunting, and feature talk.
 - **Bug reports & feature requests** — [open an issue](https://github.com/ICBizLabs/NyxScope/issues). Please note whether the bug is in NyxScope itself or in a bundled decoder; protocol-layer issues are usually best filed upstream as well.
 - **User Manual** — task-oriented walkthrough of the app: scanning, trunking, aircraft, paging, HD Radio, recording, and so on. See [`MANUAL.md`](./MANUAL.md).
-- **Documentation and guides** — [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)
+- **Documentation and guides** — the [project wiki](https://github.com/ICBizLabs/NyxScope/wiki): FAQ, hardware & trunking setup, HD Radio, and the HTTP API.
+- **Website** — [i-c.biz](https://i-c.biz/) for downloads, licensing, and the frequency database.
 
 ## Acknowledgments
 
@@ -296,4 +297,4 @@ If you find NyxScope useful, please also consider supporting the upstream projec
 
 ---
 
-*Distributed by ICBizLabs · [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/) · [Discord](https://discord.gg/Wf4RRc2VPp)*
+*Distributed by ICBizLabs · [i-c.biz](https://i-c.biz/) · [Docs](https://github.com/ICBizLabs/NyxScope/wiki) · [Discord](https://discord.gg/Wf4RRc2VPp)*
