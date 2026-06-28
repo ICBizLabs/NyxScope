@@ -1,59 +1,80 @@
 # NyxScope
 
-**A multi-protocol SDR receiver for Windows. One UI, the best open-source decoders bundled in.**
+**A multi-protocol SDR receiver for Windows. Native decoders for the protocols that matter, plus a curated toolkit for everything else.**
 
-NyxScope wires together a curated set of open-source SDR decoders — `multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `acarsdec`, `dump978`, `AIS-catcher`, `dumpvdl2`, `rs41mod`, `mbelib-neo` — behind a single Rust/Tauri application. You get spectrum and waterfall, up to 16 concurrent VFOs, trunked-radio following (P25 Phase 1 and 2, EDACS, NXDN), digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, without compiling sidecars, managing `PATH`, or gluing pipelines together.
+NyxScope is a Rust/Tauri application that decodes most of its digital protocols natively — P25 Phase 1 and Phase 2 voice, EDACS and NXDN control channels, ADS-B, AIS, ACARS, POCSAG, FLEX, LoRa CSS PHY + LoRaWAN MAC, Morse, RDS, CTCSS/DCS, signal classification — in-process, no sidecar. For protocols where a mature open-source decoder already exists, NyxScope bundles it (`multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`) so the app installs with zero `PATH` wrangling. You get spectrum and waterfall, up to 16 concurrent VFOs, trunked-radio following, digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, in one binary.
 
 [**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**User Manual**](./MANUAL.md) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues) · [**Docs**](https://icbizlabs.github.io/NyxScope/)
 
-![NyxScope — trunked voice and paging side-by-side](screenshots/Trunkandpaging.png)
+> **NyxScope 1.31 is a public BETA.** It's stable enough for daily use, but
+> features are landing fast and some decoders are still being hardened against
+> weak signals. Please report what works and what doesn't — and whether a bug
+> is in NyxScope or in a bundled decoder.
+
+![NyxScope scanning the 800 MHz band — live spectrum and waterfall up top, multiple active VFOs with mini-waterfalls and per-channel audio below](screenshots/Scanning%20800mhz%20Band.png)
+
+*Wideband scanning the 800 MHz band: the live spectrum and waterfall surface every active signal, peaks auto-tune idle VFOs, and each VFO card carries its own mini-waterfall, signal meter, tone/CTCSS readout, and independent audio.*
 
 ---
 
-## Built on open source
+## What's new in 1.31 (BETA)
 
-NyxScope would not exist without the radio decoder community. Every digital decode you see comes from work done by these projects:
+Full notes: [`RELEASE_NOTES_v1.31.0.md`](./RELEASE_NOTES_v1.31.0.md).
 
-| Upstream | What it does | License |
-| --- | --- | --- |
-| [multimon-ng](https://github.com/EliasOenal/multimon-ng) | Paging, tones, EAS, AFSK, classic digital modes | GPL-2.0-or-later |
-| [rtl_433](https://github.com/merbanan/rtl_433) | 200+ ISM-band sensors and utility meters | GPL-2.0-or-later |
-| [dsd-neo](https://github.com/arancormonk/dsd-neo) | P25 / DMR / NXDN / ProVoice digital voice | GPL-3.0-or-later |
-| [mbelib-neo](https://github.com/arancormonk/mbelib-neo) | IMBE / AMBE / AMBE+2 vocoder | GPL-2.0-or-later |
-| [nrsc5](https://github.com/theori-io/nrsc5) | HD Radio (NRSC-5) | GPL-3.0 |
-| [direwolf](https://github.com/wb2osz/direwolf) | APRS / AX.25 | GPL-2.0 |
-| [acarsdec](https://github.com/TLeconte/acarsdec) | ACARS | LGPL-2.0 |
-| [dumpvdl2](https://github.com/szpajder/dumpvdl2) | VHF Data Link Mode 2 | GPL-3.0 |
-| [dump978](https://github.com/mutability/dump978) | UAT 978 MHz ADS-B | GPL-2.0 |
-| [AIS-catcher](https://github.com/jvde-github/AIS-catcher) | AIS | GPL-3.0-or-later |
-| [rs41mod (RS)](https://github.com/rs1729/RS) | Radiosonde telemetry | GPL-3.0 |
+- **IQ-recording playback** — load a saved capture and run the entire decode pipeline over it as if it were live.
+- **GPU waterfall** — the spectrum history now renders in WebGL (SDR++-style): smooth, interpolated, and far lighter on the CPU.
+- **Network SDRs auto-discovered** — SoapyRemote servers (e.g. a HackRF on a Pi) appear in the device picker automatically over the LAN.
+- **Bluetooth LE during scan** now surfaces reliably, the device list is remembered across restarts, live PPM correction works mid-scan, and there's a duration-limited IQ-capture HTTP endpoint.
 
-And the frameworks the app itself is built on: [Rust](https://www.rust-lang.org), [Tauri](https://tauri.app), [Svelte](https://svelte.dev) — all Apache-2.0 / MIT.
+---
 
-If a decode is wrong or a protocol is missing, the fix usually belongs **upstream**, with the project that owns the decoder. Bug reports against NyxScope's wrapper and UI are welcome here; protocol-layer bugs belong with the people who maintain that decoder. We do not maintain forks of bundled tools.
+## What NyxScope decodes natively
 
-## Native decoders and DSP
+Most of NyxScope's digital decode work runs in native Rust inside the application — no sidecar, no IPC on the hot loop, no upstream tool to install or version-match:
 
-Alongside the bundled FOSS stack, NyxScope ships its own native Rust decoders and DSP for the parts where an off-the-shelf option didn't exist or wasn't a good fit:
-
-- **P25 Phase 1 voice decoder** with soft-NID and best-effort IMBE FEC — 94–96% frame recovery on weak signals, where stock decoders get zero syncs. Uses `mbelib-neo` for the IMBE codec via the isolated `sdr-imbe-helper` subprocess.
+- **P25 Phase 1 voice** with soft-NID and best-effort IMBE FEC — 94–96% frame recovery on weak signals where stock decoders get zero syncs. The IMBE codec itself runs in an isolated `sdr-imbe-helper` subprocess against `mbelib-neo`.
 - **P25 Phase 2 TDMA voice** — π/4 DQPSK demod with Gardner timing recovery, 21-dibit TDMA sync, dual-slot extraction, AMBE+2 decode.
-- **EDACS control-channel decoder** — 9600 baud GMSK, BCH(40,28), ESK auto-detect, Standard and EA mode (the EA mode auto-detected from site-ID pattern), with voice following on the data channels.
-- **NXDN48 control-channel decoder** — 4FSK demod, FSW sync, PN 9,5 scrambler, K=5 Viterbi FEC, CRC-16/CRC-6 protected CAC and SACCH frames.
-- **POCSAG in-process decoder** — no `multimon-ng` subprocess on paging-only ranges; runs inside the VFO pool.
-- **FLEX in-process decoder** — same.
-- **Multi-stage IQ decimation pipeline** — for NFM/AM, the VFO does IQ→IQ→FM demod rather than IQ→FM→audio decim, recovering ~14 dB of pager-sideband sensitivity.
-- **LoRa CSS PHY** — chirp/dechirp/FFT decoder with parallel SF7–12 paths per channel, Hamming and CRC handling, and LoRaWAN MAC parsing (DevAddr, FCnt, FPort, MType) across nine regional plans.
-- **Morse / CW decoder** with on-card readout.
-- **CTCSS / DCS detection** — Goertzel-based CTCSS (50 tones, median noise floor gating) and Golay(23,12) DCS (83 codes, every alignment and polarity).
-- **RDS decoder** for WFM (station name, RadioText, PTY, TP/TA).
+- **EDACS control channel** — 9600 baud GMSK, BCH(40,28), ESK auto-detect, Standard and EA mode (auto-detected from site-ID pattern), with voice following on the data channels.
+- **NXDN48 control channel** — 4FSK demod, FSW sync, PN 9,5 scrambler, K=5 Viterbi FEC, CRC-16 / CRC-6 protected CAC and SACCH frames.
+- **ADS-B (1090 MHz)** — native Mode S extended-squitter decode straight off the IQ stream.
+- **AIS (162 MHz)** — native dual-channel GMSK decoder.
+- **ACARS** — native MSK decoder with multi-channel VFO scheduling.
+- **POCSAG 512 / 1200 / 2400** — in-process, no `multimon-ng` subprocess on paging-only ranges.
+- **FLEX 1600 / 3200 / 6400** — in-process, same path.
+- **LoRa CSS PHY** — chirp / dechirp / FFT decoder with parallel SF7–12 paths per channel, Hamming and CRC handling, and LoRaWAN MAC parsing (DevAddr, FCnt, FPort, MType) across nine regional plans.
+- **Morse / CW** with on-card readout.
+- **CTCSS / DCS** — Goertzel-based CTCSS (50 tones, median noise-floor gating) and Golay(23,12) DCS (83 codes, every alignment and polarity).
+- **RDS** for WFM (station name, RadioText, PTY, TP/TA).
+- **Bluetooth LE advertising scanner** — native GFSK decode on the three 2.4 GHz advertising channels (37/38/39), with channel-seeded whitening and CRC-24 validated against real packets. Rich advertisement parsing (flags, service UUIDs, TX power, appearance, manufacturer, iBeacon/Eddystone), a device table keyed by MAC with **IEEE OUI vendor lookup** (~40k orgs), device-type icons, a type filter, and a signal meter. A dedicated scan mode cycles the channels; a normal 2.4 GHz scan also surfaces BLE opportunistically. Needs a 2.4 GHz SDR (HackRF / PlutoSDR / Airspy).
 - **Signal classification (AMC)** — labels FSK / GFSK / OOK / OFDM and friends from IQ alone.
 - **Protocol identification** — IQ-fingerprint-based POCSAG/FLEX disambiguation, before any decoder is run.
+- **Multi-stage IQ decimation pipeline** for NFM/AM — VFO does IQ→IQ→FM demod instead of IQ→FM→audio decim, recovering ~14 dB of pager-sideband sensitivity.
 - **Integer CIC + FM demod pipeline** for digital voice — the path that makes DSD actually sync on real signals (matches `rtl_fm` round-trip exactly).
 - **Native HD Radio host-side resampler** — bit-accurate cubic Hermite + Blackman LPF, lets the `nrsc5` sidecar run on whatever sample rate the SDR will give us.
-- **Multi-SDR registry and tabbed UI** — one app instance manages multiple SDRs in parallel, each with its own scan, VFOs, and decoded-message stream.
+- **Multi-SDR registry and tabbed UI (preview)** — the backend registry manages multiple SDRs in parallel with per-slot scan / VFO / message streams; the `SlotTabs` strip appears once a second SDR is connected. Single-SDR users see no UI change. Treated as preview until a Pro License SKU ships.
 - **Adaptive auto-squelch** with one-shot calibration and continuous noise-floor tracking.
 - **HTTP control surface** on port 8765 — JSON API for status, audio streaming, IQ streaming, debug stats, message tails, and headless operation. Always-on, separate from the Tauri GUI.
+
+## Bundled decoders
+
+For protocols where a mature open-source decoder already exists, NyxScope bundles it as a sidecar so the app installs with zero `PATH` configuration. Each sidecar runs as a separate process — not statically linked into the main binary — so license obligations stay scoped to each component. To keep the base installer lean, the heavier and satellite-focused sidecars download on demand (SHA-256 verified) from the in-app **Feature Manager** the first time you need them.
+
+| Tool | What NyxScope uses it for | License |
+| --- | --- | --- |
+| [dsd-neo](https://github.com/arancormonk/dsd-neo) | DMR, D-STAR, YSF, M17, and NXDN voice (P25 voice and EDACS/NXDN control are native) | GPL-3.0-or-later |
+| [mbelib-neo](https://github.com/arancormonk/mbelib-neo) | IMBE / AMBE+2 vocoder, called from the native P25 paths via an isolated helper | GPL-2.0-or-later |
+| [rtl_433](https://github.com/merbanan/rtl_433) | 200+ ISM-band sensors and utility meters | GPL-2.0-or-later |
+| [multimon-ng](https://github.com/EliasOenal/multimon-ng) | DTMF / ZVEI / EEA / EIA / CCIR tones, EAS/SAME, AFSK, classic packet modes (POCSAG and FLEX are native) | GPL-2.0-or-later |
+| [nrsc5](https://github.com/theori-io/nrsc5) | HD Radio (NRSC-5) audio and metadata | GPL-3.0 |
+| [direwolf](https://github.com/wb2osz/direwolf) | APRS / AX.25 packet | GPL-2.0 |
+| [dumpvdl2](https://github.com/szpajder/dumpvdl2) | VHF Data Link Mode 2 | GPL-3.0 |
+| [dump978](https://github.com/mutability/dump978) | UAT 978 MHz ADS-B | GPL-2.0 |
+| [rs41mod (RS)](https://github.com/rs1729/RS) | Radiosonde telemetry (RS41, RS92, DFM, M10/M20) | GPL-3.0 |
+| [acarsdec](https://github.com/TLeconte/acarsdec) | Optional enhanced multi-frequency ACARS (the native MSK decoder is the default) | LGPL-2.0 |
+
+App frameworks: [Rust](https://www.rust-lang.org), [Tauri](https://tauri.app), and [Svelte](https://svelte.dev) — Apache-2.0 / MIT.
+
+If a decode is wrong inside one of the bundled tools, the fix usually belongs **upstream** with the project that owns that decoder. Bugs in NyxScope's UI, native decoders, scanner engine, or sidecar wiring belong here. We do not maintain forks of bundled tools.
 
 ## License and source code
 
@@ -67,11 +88,13 @@ Alongside the bundled FOSS stack, NyxScope ships its own native Rust decoders an
 
 ## What it does
 
-- **Live spectrum and waterfall** with peak picking, hover tooltips, right-click tune-to, and one-click skip from peaks.
-- **Up to 16 concurrent VFOs** with mini-waterfalls and independent audio per channel.
+- **Live spectrum and GPU waterfall** with peak picking, hover tooltips, right-click tune-to, and one-click skip from peaks. The waterfall renders in WebGL — smooth and interpolated, with the history scrolled and colour-mapped on the graphics card (it falls back to a CPU renderer when WebGL isn't available).
+- **IQ-recording playback** — load a saved capture (`.cf32` / `.cs16` / `.cu8` / `.fc32` / `.sc16` / `.raw`) as a playback "device" and run every native decoder, VFO, and protocol panel against it as if it were live.
+- **Up to 16 concurrent VFOs** with mini-waterfalls (centered on the channel and scaled to its bandwidth) and independent audio per channel.
 - **Adaptive auto-squelch** that tracks the noise floor with one-shot and continuous modes.
 - **Auto-identify digital protocol** — point at an unknown digital signal and the app cycles through DSD modes and picks the best match.
 - **Signal classification** that labels the modulation (FSK, GFSK, OOK, OFDM, …) from IQ.
+- **Bluetooth LE scanner** — discover nearby BLE advertisers (phones, watches, earbuds, beacons, sensors, trackers) on 2.4 GHz, with vendor names, device-type icons, signal strength, and full advertisement detail.
 - **Quick Modes** — one-click presets for ADS-B, AIS, ACARS, VDL2, APRS, pagers, ISM sensors, and radiosondes.
 - **Channel-bank scanning** with priority, skip lists, and import from CHIRP / RadioReference / FCC.
 - **Live tracking map** for ADS-B, AIS, APRS, and radiosondes, side-by-side with the data table — never a blocking modal.
@@ -80,9 +103,21 @@ Alongside the bundled FOSS stack, NyxScope ships its own native Rust decoders an
 - **Per-VFO recording** — WAV and IQ, with VAD/VOX triggers, pre/post-record buffers, and notes that travel with the file.
 - **Per-band scanner overrides** — squelch, hold time, dwell, and digital-detect settings remembered per band.
 
+![NyxScope Bluetooth LE scanner — discovered devices listed by MAC with vendor names, device-type icons, a signal meter, advertising channel and packet count, plus a per-device detail view](screenshots/BLE_Scan.png)
+
+*The BLE tab lists every advertising device deduped by MAC — address, name and vendor (from the manufacturer ID or the IEEE OUI registry), a category icon, a signal bar, the advertising channel and packet count — with sortable/searchable columns and full per-device advertisement detail (services, iBeacon/Eddystone, raw hex).*
+
+![NyxScope RadioReference import — bringing a trunked system's talkgroups and frequencies straight into a channel bank](screenshots/RadioReferenceImport.png)
+
+*Channel banks can be populated by importing directly from RadioReference (and CHIRP / FCC), pulling in a system's frequencies and talkgroups so you're scanning in seconds.*
+
 ## Protocol coverage
 
 ### Trunked radio
+
+![NyxScope following a P25 trunked system — control-channel decode with the active call's talkgroup, source ID and encryption flag, and the voice channel tuned automatically](screenshots/P25Trunking.png)
+
+*Following a P25 system: NyxScope decodes the control channel, shows the active call's talkgroup and source, and tunes the granted voice frequency automatically — with a Phase 1 / Phase 2 badge so you can see which voice mode is in use.*
 
 - **P25 Phase 1** — native IMBE voice with best-effort FEC, 94–96% frame recovery on signals where stock tools get nothing.
 - **P25 Phase 2 TDMA** — native AMBE+2 voice with automatic Phase 1 / Phase 2 routing from the control channel.
@@ -91,7 +126,9 @@ Alongside the bundled FOSS stack, NyxScope ships its own native Rust decoders an
 - **Control-channel auto-discovery** across 851–869 MHz, identifying systems by NAC, WACN, RFSS, and Site.
 - **Active call tracking** — talkgroup, source ID, encryption flag, and call history.
 
-![P25 trunking — live talkgroup, source ID, encryption flag, and call history](screenshots/P25Trunking.png)
+![NyxScope Trunk Discovery tab — automatically surfacing candidate control-channel frequencies with an individual-frequency filter](screenshots/TrunkDiscovery.png)
+
+*Trunk Discovery watches a band and surfaces the control-channel candidates it finds, so you can identify and add a trunked system without knowing its frequencies up front.*
 
 ### Digital voice
 
@@ -99,15 +136,39 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 
 ### Aviation and marine
 
+![NyxScope in ADS-B mode — aircraft on a live map alongside a sortable table of ICAO codes, callsigns, altitude, speed and heading](screenshots/ADSB.png)
+
+*ADS-B 1090: aircraft plotted on a live map next to the data table — ICAO hex, callsign, altitude, speed and heading — with optional one-click metadata lookup for registration, type and operator.*
+
 - **ADS-B 1090** — live aircraft positions, ICAO codes, altitude, callsigns, on a map.
 - **UAT 978** — general aviation ADS-B (`dump978`).
-- **AIS 162** — vessel MMSI, position, speed, heading (native + `AIS-catcher`).
+- **AIS 162** — vessel MMSI, position, speed, heading (native dual-channel GMSK decoder).
 - **ACARS 130** — flight messages, registrations, labels (`acarsdec`).
 - **VDL2 137** — VHF Data Link Mode 2 (`dumpvdl2`).
 
-![ADS-B aircraft tracking — interactive map next to the data table](screenshots/ADSB.png)
+![NyxScope in ACARS mode — eight standard VHF aviation channels monitored at once, with decoded messages showing registration, flight ID, label and free-text body](screenshots/ACARSMode.png)
+
+*ACARS: NyxScope schedules VFOs across the standard VHF ACARS channels and decodes messages natively — registration, flight ID, the 2-character label with its description, and the message body.*
+
+### Satellite & L-band
+
+A suite of space and L-band receivers (downloaded on demand from the Feature Manager). Most need an **L-band antenna / LNA** and a clear sky view, and several are still being hardened against weak signals — see the BETA note.
+
+![NyxScope decoding Iridium L-band bursts — frame types (IRA, IBC, IDA…) in a live timeline with a satellite/Ring-Alert view](screenshots/Iridium_Lband.png)
+
+*Iridium (1.6 GHz): NyxScope's native burst decoder classifies and parses Iridium frames (Ring Alert / IRA satellite overhead, broadcast, data) into a live, filterable timeline, with a quick-start preset and map view.*
+
+- **Iridium (1.6 GHz)** — native burst decoder (IRA / IBC / IDA and more) with the `iridium-toolkit` parser, a voice-activity tab, a Ring-Alert preset, and a satellite map view.
+- **Aero ACARS (Inmarsat L-band, ~1.5 GHz)** — aircraft↔ground satellite messaging via the Inmarsat sniffer, with per-satellite selection (4F3 / 3F5 / AF1 / F1) and an antenna-peaking C/N meter.
+- **STD-C (Inmarsat-C, ~1.541 GHz)** — maritime safety + EGC bulletins, with live lock-health diagnostics and offline IQ-file decode.
+- **GOES LRIT (1.69 GHz)** — geostationary weather-satellite imagery via a SatDump sidecar over an in-process `rtl_tcp` bridge, with an az/el pointing helper from your location.
+- **GPS L1** — native acquisition (visible PRNs with SNR and Doppler) for antenna/sky-view validation.
 
 ### Paging and sensors
+
+![NyxScope decoding FLEX paging traffic — decoded messages with capcodes and timestamps alongside the spectrum](screenshots/FLEX.png)
+
+*FLEX paging: NyxScope's native FLEX/POCSAG decoders surface messages with capcodes, timestamps and content. A dedicated wideband pager-monitor mode can watch many paging channels at once across the band.*
 
 - **POCSAG 512 / 1200 / 2400** with capcode filtering and force-alpha override.
 - **FLEX and FLEX NEXT** with capcode tracking.
@@ -115,11 +176,9 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **Radiosondes** — RS41, RS92, DFM, M10/M20 on 400–406 MHz.
 - **LoRa** — native CSS PHY decoder with multi-region channel plans (US915, EU868, EU433, AU915, AS923, CN470, IN865, KR920, RU864) and LoRaWAN MAC parsing.
 
-![Pager reception — POCSAG/FLEX traffic in real time](screenshots/PagerReception.png)
+![NyxScope decoding ISM sensors via rtl_433 — a table of received devices (smart meters, weather stations, TPMS, remotes) with model, ID and readings](screenshots/sensors.png)
 
-![ISM sensor decoding — smart meters, weather stations, TPMS, and more](screenshots/sensors.png)
-
-![433 MHz remote controls and keyfobs decoded via rtl_433](screenshots/433CarRemotes.png)
+*ISM sensors via `rtl_433`: weather stations, smart meters, tire-pressure monitors, remotes and 200+ more device types decoded into a live table with model, ID and readings.*
 
 ### Tones, signaling, emergency
 
@@ -132,10 +191,12 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 
 ### Broadcast
 
+![NyxScope decoding HD Radio (NRSC-5) — station name, program selection HD1–HD4, and live title/artist/album metadata](screenshots/HDRadio.png)
+
+*HD Radio (NRSC-5): lock an FM broadcast and NyxScope decodes the digital sidebands — switch between HD1–HD4 subprograms and read station name, slogan, and live title / artist / album.*
+
 - **HD Radio (NRSC-5)** — locks onto FM broadcast, switches between HD1–HD4 programs, shows station name, slogan, title, artist, album, genre, and quality stats.
 - **RDS** — station name, RadioText, program type, traffic alerts on any WFM lock.
-
-![HD Radio (NRSC-5) — HD1–HD4 program switching with full metadata](screenshots/HDRadio.png)
 
 ### Amateur
 
@@ -145,7 +206,9 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 
 ## Quick Modes
 
-![Quick Modes — one-click access to every supported preset](screenshots/QuickModes.png)
+![NyxScope Quick Modes — one-click preset buttons for ADS-B, AIS, ACARS, VDL2, APRS, pagers, ISM sensors and radiosondes](screenshots/QuickModes.png)
+
+*Quick Modes: one click sets the frequency, sample rate, decoder and view for a common task — no manual tuning.*
 
 | Preset | Frequency | What you get |
 | --- | --- | --- |
@@ -185,7 +248,7 @@ The license model is described in detail in [`eula.md`](./eula.md).
 
 - **Audio, IQ, recordings, transcripts, and the spectrum waterfall stay on your machine.** None of it is ever transmitted.
 - **Local Whisper** transcription is fully offline — audio never leaves the machine.
-- **Cloud transcription** (OpenAI, AssemblyAI) is opt-in **per channel**. The app never sends audio without an explicit Enable click.
+- **Cloud transcription** (OpenAI Whisper API) is opt-in **per channel**. The app never sends audio without an explicit Enable click. The endpoint URL is user-configurable; the OpenAI default ships disabled until you paste in your own API key.
 - **License heartbeat** — Trial and Licensed installs check the license server every few hours to confirm the key hasn't been revoked. The ping carries your numeric key id and a hashed hardware fingerprint. No listening data is included.
 - **Crash reports** are opt-in. After a panic, the next launch shows the full report inline and nothing is sent unless you click **Send**. Reports are double-redacted (license keys, tokens, IPs, and home paths replaced) before transmission.
 - **FCC database and aircraft lookups** only happen when you click **Lookup** or **Auto-enrich** — see the section below.
@@ -195,6 +258,10 @@ Full plain-language details and opt-out steps live in [`privacy.md`](./privacy.m
 ## Online lookups (optional)
 
 NyxScope can enrich what it shows you with two optional online lookups. Both are gated to Trial / Licensed tiers and both can be turned off in Settings. Free-tier users can perform the same lookups manually at [i-c.biz/db](https://i-c.biz/db) at no charge.
+
+![The i-c.biz/db web lookup — a self-hosted mirror of the FCC ULS and OpenSky aircraft databases, searchable by frequency or ICAO hex](screenshots/databasewebsite.png)
+
+*The same FCC ULS and aircraft data NyxScope uses for in-app enrichment is browsable for free at [i-c.biz/db](https://i-c.biz/db) — search by frequency to find the licensee, callsign, service and expiry, or by ICAO hex for aircraft registration and operator.*
 
 - **FCC ULS frequency lookup** — when you right-click a frequency in any data tab, NyxScope can query [i-c.biz/db](https://i-c.biz/db), a self-hosted mirror of the FCC's Universal Licensing System, to identify the licensee, callsign, service code, and license expiry. Data source: the FCC ULS public bulk database (US Federal Government, public domain). Endpoint: `https://i-c.biz/db/api/v2/search/frequencies`.
 - **Aircraft metadata lookup** — when an ADS-B (1090) or UAT (978) target appears with an ICAO hex code, NyxScope can resolve the registration, type, and operator via a self-hosted mirror of the OpenSky aircraft database. Endpoint: `https://i-c.biz/db/api/v2/aircraft`. The OpenSky aircraft database is community-maintained and free to redistribute under its own terms.
@@ -216,16 +283,17 @@ NyxScope is currently Windows-only.
 
 ## Community and support
 
+- **Discord** — join the NyxScope community at [discord.gg/Wf4RRc2VPp](https://discord.gg/Wf4RRc2VPp) for help, signal hunting, and feature talk.
 - **Bug reports & feature requests** — [open an issue](https://github.com/ICBizLabs/NyxScope/issues). Please note whether the bug is in NyxScope itself or in a bundled decoder; protocol-layer issues are usually best filed upstream as well.
 - **User Manual** — task-oriented walkthrough of the app: scanning, trunking, aircraft, paging, HD Radio, recording, and so on. See [`MANUAL.md`](./MANUAL.md).
 - **Documentation and guides** — [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)
 
 ## Acknowledgments
 
-NyxScope is, at its core, a polished integration layer over the work of many open-source maintainers. Every protocol it decodes is decoded by someone else's library, called from someone else's framework, on top of someone else's operating system. We are grateful to the maintainers of `multimon-ng`, `rtl_433`, `dsd-neo`, `mbelib-neo`, `nrsc5`, `direwolf`, `acarsdec`, `dumpvdl2`, `dump978`, `AIS-catcher`, `rs41mod`, and the Rust, Tauri, and Svelte projects, as well as the upstream library authors listed in [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
+NyxScope ships its own decoders for most digital protocols and integrates a curated set of established open-source tools for the rest. Thanks to the maintainers of `dsd-neo`, `mbelib-neo`, `rtl_433`, `multimon-ng`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`, and `acarsdec`, and to the Rust, Tauri, and Svelte projects — the bundled-tools side of NyxScope rests on their work. The full list of upstream libraries lives in [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
 
-If you find NyxScope useful, please also consider supporting the upstream projects that make it work.
+If you find NyxScope useful, please also consider supporting the upstream projects.
 
 ---
 
-*Distributed by ICBizLabs · [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/)*
+*Distributed by ICBizLabs · [icbizlabs.github.io/NyxScope](https://icbizlabs.github.io/NyxScope/) · [Discord](https://discord.gg/Wf4RRc2VPp)*
