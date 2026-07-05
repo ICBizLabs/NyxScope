@@ -2,11 +2,11 @@
 
 **A multi-protocol SDR receiver for Windows. Native decoders for the protocols that matter, plus a curated toolkit for everything else.**
 
-NyxScope is a Rust/Tauri application that decodes most of its digital protocols natively — P25 Phase 1 and Phase 2 voice, EDACS and NXDN control channels, ADS-B, AIS, ACARS, POCSAG, FLEX, LoRa CSS PHY + LoRaWAN MAC, Morse, RDS, CTCSS/DCS, signal classification — in-process, no sidecar. For protocols where a mature open-source decoder already exists, NyxScope bundles it (`multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`) so the app installs with zero `PATH` wrangling. You get spectrum and waterfall, up to 16 concurrent VFOs, trunked-radio following, digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, in one binary.
+NyxScope is a Rust/Tauri application that decodes most of its digital protocols natively — P25 Phase 1 and Phase 2 voice, EDACS and NXDN control channels, ADS-B, AIS, ACARS, POCSAG, FLEX, LoRa CSS PHY + LoRaWAN MAC, Morse, RDS, CTCSS/DCS, signal classification — in-process, no sidecar. For protocols where a mature open-source decoder already exists, NyxScope bundles it (`multimon-ng`, `rtl_433`, `dsd-neo`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`) so the app installs with zero `PATH` wrangling. You get spectrum and waterfall, multiple concurrent VFOs, trunked-radio following, digital voice, aviation and marine tracking, paging, ISM sensors, HD Radio, and transcription, in one binary.
 
 [**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Website**](https://i-c.biz/) · [**User Manual**](./MANUAL.md) · [**Docs**](https://github.com/ICBizLabs/NyxScope/wiki) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues)
 
-> **NyxScope 1.31 is a public BETA.** It's stable enough for daily use, but
+> **NyxScope 1.32 is a public BETA.** It's stable enough for daily use, but
 > features are landing fast and some decoders are still being hardened against
 > weak signals. Please report what works and what doesn't — and whether a bug
 > is in NyxScope or in a bundled decoder.
@@ -17,14 +17,14 @@ NyxScope is a Rust/Tauri application that decodes most of its digital protocols 
 
 ---
 
-## What's new in 1.31 (BETA)
+## What's new in 1.32 (BETA)
 
-Full notes: [`RELEASE_NOTES_v1.31.0.md`](./RELEASE_NOTES_v1.31.0.md).
+Full notes: [`RELEASE_NOTES_v1.32.0.md`](./RELEASE_NOTES_v1.32.0.md).
 
-- **IQ-recording playback** — load a saved capture and run the entire decode pipeline over it as if it were live.
-- **GPU waterfall** — the spectrum history now renders in WebGL (SDR++-style): smooth, interpolated, and far lighter on the CPU.
-- **Network SDRs auto-discovered** — SoapyRemote servers (e.g. a HackRF on a Pi) appear in the device picker automatically over the LAN.
-- **Bluetooth LE during scan** now surfaces reliably, the device list is remembered across restarts, live PPM correction works mid-scan, and there's a duration-limited IQ-capture HTTP endpoint.
+- **Fully native Iridium decoding** — the built-in decoder is now the only Iridium path; the sniffer/parser sidecar, bundled Python, and toolkit files are gone. Nothing to install, no Python setup.
+- **RTL-SDR reliability overhaul** — fixed random dropouts (leftover helper processes fighting over the dongle), deaf tuning above ~770 MHz (pagers, P25, 915 MHz ISM), waterfall banding from digital-AGC pumping, and silently ignored sample rates.
+- **Leaner install** — ACARS decoding is fully built in, so the acarsdec sidecar is no longer bundled.
+- **Safer downloads** — the SatDump download is now SHA-256 verified like the other feature packs.
 
 ---
 
@@ -70,7 +70,6 @@ For protocols where a mature open-source decoder already exists, NyxScope bundle
 | [dumpvdl2](https://github.com/szpajder/dumpvdl2) | VHF Data Link Mode 2 | GPL-3.0 |
 | [dump978](https://github.com/mutability/dump978) | UAT 978 MHz ADS-B | GPL-2.0 |
 | [rs41mod (RS)](https://github.com/rs1729/RS) | Radiosonde telemetry (RS41, RS92, DFM, M10/M20) | GPL-3.0 |
-| [acarsdec](https://github.com/TLeconte/acarsdec) | Optional enhanced multi-frequency ACARS (the native MSK decoder is the default) | LGPL-2.0 |
 
 App frameworks: [Rust](https://www.rust-lang.org), [Tauri](https://tauri.app), and [Svelte](https://svelte.dev) — Apache-2.0 / MIT.
 
@@ -90,7 +89,7 @@ If a decode is wrong inside one of the bundled tools, the fix usually belongs **
 
 - **Live spectrum and GPU waterfall** with peak picking, hover tooltips, right-click tune-to, and one-click skip from peaks. The waterfall renders in WebGL — smooth and interpolated, with the history scrolled and colour-mapped on the graphics card (it falls back to a CPU renderer when WebGL isn't available).
 - **IQ-recording playback** — load a saved capture (`.cf32` / `.cs16` / `.cu8` / `.fc32` / `.sc16` / `.raw`) as a playback "device" and run every native decoder, VFO, and protocol panel against it as if it were live.
-- **Up to 16 concurrent VFOs** with mini-waterfalls (centered on the channel and scaled to its bandwidth) and independent audio per channel.
+- **Multiple concurrent VFOs** with mini-waterfalls (centered on the channel and scaled to its bandwidth) and independent audio per channel.
 - **Adaptive auto-squelch** that tracks the noise floor with one-shot and continuous modes.
 - **Auto-identify digital protocol** — point at an unknown digital signal and the app cycles through DSD modes and picks the best match.
 - **Signal classification** that labels the modulation (FSK, GFSK, OOK, OFDM, …) from IQ.
@@ -143,7 +142,7 @@ P25 (Phase 1 & 2), DMR, NXDN48, NXDN96, D-STAR, Yaesu System Fusion, M17, ProVoi
 - **ADS-B 1090** — live aircraft positions, ICAO codes, altitude, callsigns, on a map.
 - **UAT 978** — general aviation ADS-B (`dump978`).
 - **AIS 162** — vessel MMSI, position, speed, heading (native dual-channel GMSK decoder).
-- **ACARS 130** — flight messages, registrations, labels (`acarsdec`).
+- **ACARS 130** — flight messages, registrations, labels (built-in decoder).
 - **VDL2 137** — VHF Data Link Mode 2 (`dumpvdl2`).
 
 ![NyxScope in ACARS mode — eight standard VHF aviation channels monitored at once, with decoded messages showing registration, flight ID, label and free-text body](screenshots/ACARSMode.png)
@@ -158,7 +157,7 @@ A suite of space and L-band receivers (downloaded on demand from the Feature Man
 
 *Iridium (1.6 GHz): NyxScope's native burst decoder classifies and parses Iridium frames (Ring Alert / IRA satellite overhead, broadcast, data) into a live, filterable timeline, with a quick-start preset and map view.*
 
-- **Iridium (1.6 GHz)** — native burst decoder (IRA / IBC / IDA and more) with the `iridium-toolkit` parser, a voice-activity tab, a Ring-Alert preset, and a satellite map view.
+- **Iridium (1.6 GHz)** — built-in native burst decoder (IRA / IBC / IDA and more) with a voice-activity tab, a Ring-Alert preset, and a satellite map view. No external tools or Python needed.
 - **Aero ACARS (Inmarsat L-band, ~1.5 GHz)** — aircraft↔ground satellite messaging via the Inmarsat sniffer, with per-satellite selection (4F3 / 3F5 / AF1 / F1) and an antenna-peaking C/N meter.
 - **STD-C (Inmarsat-C, ~1.541 GHz)** — maritime safety + EGC bulletins, with live lock-health diagnostics and offline IQ-file decode.
 - **GOES LRIT (1.69 GHz)** — geostationary weather-satellite imagery via a SatDump sidecar over an in-process `rtl_tcp` bridge, with an az/el pointing helper from your location.
@@ -240,7 +239,9 @@ RTL-SDR devices need WinUSB / libusb drivers — install via [Zadig](https://zad
 
 ## Editions
 
-NyxScope ships in a **Free** tier (single VFO, channel banks, POCSAG/FLEX paging, CTCSS/DCS, RDS, signal classification) and a paid tier that unlocks 16-VFO operation, trunking, the full digital voice suite, ADS-B/AIS/ACARS/VDL2/APRS/radiosonde/LoRa, HD Radio, recording, streaming, and Whisper transcription. A trial of the paid features starts automatically on first install — no card required. Licenses are bound to a hardware fingerprint and transferable on request. See the License dialog in-app for activation details.
+NyxScope is **fully functional for free** — every decoder works (ADS-B, UAT, AIS, ACARS, P25/DMR/NXDN/EDACS voice, VDL2, HD Radio, APRS, radiosonde, LoRa, ISM sensors, POCSAG/FLEX paging, CTCSS/DCS, RDS, signal classification), along with trunked-radio following, audio and IQ recording, and Whisper transcription. The free tier runs up to **3 concurrent VFOs** and applies modest quotas to saved recordings, transcriptions, and pager messages.
+
+A **license** lifts those limits and adds the infrastructure features: **unlimited VFOs**, HTTP and RTL-TCP audio streaming, unlimited recording and transcription, and built-in access to the **i-c.biz FCC frequency-lookup database** (no separate API key). A trial of the licensed features starts automatically on first install — no card required. Licenses are bound to a hardware fingerprint and transferable on request. See the License dialog in-app for activation details.
 
 The license model is described in detail in [`eula.md`](./eula.md).
 
@@ -291,7 +292,7 @@ NyxScope is currently Windows-only.
 
 ## Acknowledgments
 
-NyxScope ships its own decoders for most digital protocols and integrates a curated set of established open-source tools for the rest. Thanks to the maintainers of `dsd-neo`, `mbelib-neo`, `rtl_433`, `multimon-ng`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, `rs41mod`, and `acarsdec`, and to the Rust, Tauri, and Svelte projects — the bundled-tools side of NyxScope rests on their work. The full list of upstream libraries lives in [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
+NyxScope ships its own decoders for most digital protocols and integrates a curated set of established open-source tools for the rest. Thanks to the maintainers of `dsd-neo`, `mbelib-neo`, `rtl_433`, `multimon-ng`, `nrsc5`, `direwolf`, `dumpvdl2`, `dump978`, and `rs41mod`, and to the Rust, Tauri, and Svelte projects — the bundled-tools side of NyxScope rests on their work. The full list of upstream libraries lives in [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
 
 If you find NyxScope useful, please also consider supporting the upstream projects.
 
