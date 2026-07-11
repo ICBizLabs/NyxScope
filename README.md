@@ -6,10 +6,13 @@ NyxScope is a Rust/Tauri application that decodes most of its digital protocols 
 
 [**Download**](https://github.com/ICBizLabs/NyxScope/releases/latest) · [**Website**](https://i-c.biz/) · [**User Manual**](./MANUAL.md) · [**Docs**](https://github.com/ICBizLabs/NyxScope/wiki) · [**Source mirrors**](https://i-c.biz/sources/) · [**Issues**](https://github.com/ICBizLabs/NyxScope/issues)
 
-> **NyxScope 1.32 is a public BETA.** It's stable enough for daily use, but
-> features are landing fast and some decoders are still being hardened against
-> weak signals. Please report what works and what doesn't — and whether a bug
-> is in NyxScope or in a bundled decoder.
+> **NyxScope is a public BETA — features are fluid.** It's stable enough for
+> daily use, but this is active development: **features may be added, changed,
+> or removed at any point**, and nothing is locked until a release candidate.
+> Some decoders are still being hardened against weak signals. This is exactly
+> the stage where your feedback shapes the product — please report what works
+> and what doesn't (and whether a bug is in NyxScope or a bundled decoder), and
+> tell us what you'd like added or dropped.
 
 ![NyxScope scanning the 800 MHz band — live spectrum and waterfall up top, multiple active VFOs with mini-waterfalls and per-channel audio below](screenshots/Scanning%20800mhz%20Band.png)
 
@@ -17,14 +20,15 @@ NyxScope is a Rust/Tauri application that decodes most of its digital protocols 
 
 ---
 
-## What's new in 1.32 (BETA)
+## What's new in 1.33.1 (BETA)
 
-Full notes: [`RELEASE_NOTES_v1.32.0.md`](./RELEASE_NOTES_v1.32.0.md).
+Full notes: [`RELEASE_NOTES_v1.33.1.md`](./RELEASE_NOTES_v1.33.1.md).
 
-- **Fully native Iridium decoding** — the built-in decoder is now the only Iridium path; the sniffer/parser sidecar, bundled Python, and toolkit files are gone. Nothing to install, no Python setup.
-- **RTL-SDR reliability overhaul** — fixed random dropouts (leftover helper processes fighting over the dongle), deaf tuning above ~770 MHz (pagers, P25, 915 MHz ISM), waterfall banding from digital-AGC pumping, and silently ignored sample rates.
-- **Leaner install** — ACARS decoding is fully built in, so the acarsdec sidecar is no longer bundled.
-- **Safer downloads** — the SatDump download is now SHA-256 verified like the other feature packs.
+- **Digital voice audio restored** — a vocoder-library change had silently muted P25 (Phase 1 + 2), DMR, NXDN, and ProVoice; all are decoding again.
+- **GNSS false-detection fix** — GPS/GLONASS no longer report satellites that aren't there when no antenna is connected.
+- **SDRplay HF** — RSP1A/1B tune below 24 MHz (shortwave), and the manual tuner follows the connected device's real frequency range.
+- **Network SDRs** — saved/named devices always appear in the dropdown, plus a new per-device "args" field to pin a specific radio by `serial=` and pass driver settings (SDRplay bias-tee / notch filters, etc.).
+- **Licensing fix** — paid features are no longer wrongly blocked.
 
 ---
 
@@ -281,6 +285,17 @@ NyxScope is currently Windows-only.
 - 4 GB RAM minimum; 8 GB recommended for heavy multi-VFO use with transcription
 - Compatible SDR hardware (see table above)
 - ~500 MB disk for the app, plus room for recordings
+
+## A note from the developer
+
+The last couple of releases were messy — sorry about that. I'll try to do
+better. With all the feedback we're now receiving, the bugs should get squashed
+fairly quickly.
+
+And please don't rush to purchase. Make sure NyxScope is a good fit for you, and
+that you won't mind dealing with beta releases that may occasionally break
+things. I'm only one person, so without testers there's no way I can find every
+bug — as I'm now seeing. Thanks for your help.
 
 ## Community and support
 
