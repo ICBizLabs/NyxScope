@@ -20,15 +20,17 @@ NyxScope is a Rust/Tauri application that decodes most of its digital protocols 
 
 ---
 
-## What's new in 1.33.1 (BETA)
+## What's new in 1.33.3 (BETA)
 
-Full notes: [`RELEASE_NOTES_v1.33.1.md`](./RELEASE_NOTES_v1.33.1.md).
+Full notes: [`RELEASE_NOTES_v1.33.3.md`](./RELEASE_NOTES_v1.33.3.md).
 
-- **Digital voice audio restored** — a vocoder-library change had silently muted P25 (Phase 1 + 2), DMR, NXDN, and ProVoice; all are decoding again.
-- **GNSS false-detection fix** — GPS/GLONASS no longer report satellites that aren't there when no antenna is connected.
-- **SDRplay HF** — RSP1A/1B tune below 24 MHz (shortwave), and the manual tuner follows the connected device's real frequency range.
-- **Network SDRs** — saved/named devices always appear in the dropdown, plus a new per-device "args" field to pin a specific radio by `serial=` and pass driver settings (SDRplay bias-tee / notch filters, etc.).
-- **Licensing fix** — paid features are no longer wrongly blocked.
+This update is about device support. If you own an **Airspy**, this is the one to try.
+
+- **Airspy audio.** Audio was garbled on every mode for every Airspy user. It was a sample rate problem in the driver layer, not your radio or your setup. Fixed.
+- **HackRF Pro.** The Pro was never detected because our HackRF library was older than the Pro itself. The library is updated and the Pro should now work.
+- **PlutoSDR audio stutter.** The rhythmic breakups in voice audio are gone. The data path between the Pluto and the app was reworked.
+
+Previous release (1.33.2): crash fixes for Airspy/HackRF disconnect, device scanning with foreign Soapy drivers, spectrum short-buffer, and transcription (non-English text + older CPUs without AVX2) — [`RELEASE_NOTES_v1.33.2.md`](./RELEASE_NOTES_v1.33.2.md).
 
 ---
 
