@@ -20,11 +20,16 @@ NyxScope is a Rust/Tauri application that decodes most of its digital protocols 
 
 ---
 
-## What's new in 1.33.3 (BETA)
+## What's new in 1.33.4 (BETA)
 
-Full notes: [`RELEASE_NOTES_v1.33.3.md`](./RELEASE_NOTES_v1.33.3.md).
+Full notes: [`RELEASE_NOTES_v1.33.4.md`](./RELEASE_NOTES_v1.33.4.md).
 
-This update is about device support. If you own an **Airspy**, this is the one to try.
+A small fix update on top of 1.33.3.
+
+- **Stream-restart crash on Windows.** If a radio stalled, the app could crash while trying to restart the stream on its own, most often with more than one radio connected. It now stops that radio cleanly and asks for a reconnect instead.
+- **HackRF Pro on machines with PothosSDR.** If you had PothosSDR installed, the app used its old 2021 drivers, which don't know the HackRF Pro (it showed "undetected" with no audio). The app now always uses its own bundled drivers, so PothosSDR is no longer needed.
+
+Previous release (1.33.3) was about device support. If you own an **Airspy**, that is the one to grab:
 
 - **Airspy audio.** Audio was garbled on every mode for every Airspy user. It was a sample rate problem in the driver layer, not your radio or your setup. Fixed.
 - **HackRF Pro.** The Pro was never detected because our HackRF library was older than the Pro itself. The library is updated and the Pro should now work.
